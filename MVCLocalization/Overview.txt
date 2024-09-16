@@ -1,0 +1,28 @@
+Spring MVC project with xml configuration
+
+Change of language via internationalization. 
+
+The change of language was not done via request. But from the xml value. 
+
+Need to convert it to springboot project
+
+Solved:
+To make the project run added embeded tomcat in pom 
+Then added maven in add configuration. used command tomcat7:run
+
+got error during redirect
+argument redirectattributes is of type model or map but is not assignable from the actual model
+https://stackoverflow.com/questions/30358905/argument-redirectattributes-is-of-type-model-or-map-but-is-not-assignable-from-t
+
+Move
+
+<mvc:annotation-driven />
+to your servlet context configuration. Since it's absent, Spring's DispatcherServlet uses its default configuration, which uses the deprecated AnnotationMethodHandlerAdapter instead of the more sophisticated RequestMappingHandlerAdapter.
+
+Also,
+
+<context:component-scan base-package="com.vc.teacher" />
+is a superset of
+
+<context:component-scan base-package="com.vc.teacher.controller" />
+So you will have duplicate bean definitions for any beans under com.vc.teacher.controller. Fix that by making your component scans distinct.
